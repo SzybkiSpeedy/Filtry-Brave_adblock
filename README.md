@@ -12,12 +12,13 @@ Filtry zabezpieczające
 _____________________________________________________________________________________________________________
 
 
-
 * Możesz również sobie kliknąć w poniży link lub skopiować --> wklejasz go do URL filtru w **Brave**
 
 [https://github.com/SzybkiSpeedy/Filtry-Brave_adblock/raw/refs/heads/main/Brave_AdBlock.txt](https://github.com/SzybkiSpeedy/Filtry-Brave_adblock/raw/refs/heads/main/Brave_AdBlock.txt)
 
 > **UWAGA:** Ta lista filtrów aktualizuje się automatycznie co 24 godziny. Nie musisz pobierać jej ponownie.
+_____________________________________________________________________________________________________________
+
 
 ### PORADNIK JAK ZAŁADOWAĆ TE FILDRTY
 
