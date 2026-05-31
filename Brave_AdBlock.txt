@@ -13,10 +13,12 @@
 @@||ip-score.com^$js,xmlhttprequest
 @@||check-host.net^$js,html,xmlhttprequest
 
-! Wyjątki dla sprawnego działania podstron galerii i logowania na Lightshot (prnt.sc / prntscr.com)
+! Pełne i bezwarunkowe odblokowanie API i skryptów niezbędnych do działania galerii i logowania na Lightshot
 @@||connect.facebook.net^$domain=prnt.sc|prntscr.com|lightshot.com
 @@||accounts.google.com^$domain=prnt.sc|prntscr.com|lightshot.com
-@@||gstatic.com^$js,domain=prnt.sc|prntscr.com
+@@||gstatic.com^$domain=prnt.sc|prntscr.com|lightshot.com
+@@||google-analytics.com^$domain=prnt.sc|prntscr.com
+@@||analytics.google.com^$domain=prnt.sc|prntscr.com
 
 ! ==========================================
 ! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
