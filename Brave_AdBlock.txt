@@ -1,4 +1,4 @@
-! Title: Moja Niestandardowa Lista Blokująca
+! Title: Brave - AdsBlock
 ! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest, IPInfo, Lightshot Gallery i Check-Host)
 ! Version: 1.1
 ! Expires: 12 hours
@@ -117,14 +117,4 @@ speedtest.pl###ad-top
 speedtest.pl##.ad-wrapper
 speedtest.pl##div[class*="advertising"]
 
-! Precyzyjne usuwanie wiszącego tekstu ładowania geolokalizacji na check-host bez uszkadzania kodu strony
-check-host.net##div[id="loading_geocode"]
-check-host.net##div:has-text(/^Loading IP address geographic location\.\.\.$/)
-
-! ==========================================
-! 9. PRYWATNOŚĆ: TELEMETRIA I ŚLEDZENIE ZEWNĘTRZNYCH FIRM
-! ==========================================
-||mc.yandex.ru^$important
-||google-analytics.com^$important
-||analytics.google.com^$important
-||connect.facebook.net^$important
+! Precyzyjne usuwanie wiszącego tek
