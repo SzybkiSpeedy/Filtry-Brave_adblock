@@ -123,7 +123,7 @@ $doc,third-party,frame
 ! ==========================================
 ! 8. BLOKOWANIE REKLAM WSTRZYKIWANYCH NA STRONACH (FAŁSZYWE PRZYCISKI POBIERANIA)
 ! ==========================================
-! Blokowanie requestów o bannery reklamowe
+! Blokowanie requestów o bannery reklamowe i automatyczne usuwanie pustych boksów reklamowych ze struktury strony
 $third-party,ad
 ||googlesyndication.com^$important
 ||doubleclick.net^$important
@@ -133,9 +133,9 @@ speedtest.pl###ad-top
 speedtest.pl##.ad-wrapper
 speedtest.pl##div[class*="advertising"]
 
-! Ukrywanie wiszącego napisu "Loading IP address geographic location..." na check-host
-check-host.net##div[style*="text-align: center; font-weight: bold;"]
-check-host.net##div:has-text(Loading IP address)
+! Precyzyjne usuwanie wiszącego tekstu ładowania geolokalizacji bez uszkadzania pozostałych bloków tekstu
+check-host.net##div[id="loading_geocode"]
+check-host.net##div:has-text(/^Loading IP address geographic location\.\.\.$/)
 
 ! ==========================================
 ! 9. PRYWATNOŚĆ: TELEMETRIA I ŚLEDZENIE ZEWNĘTRZNYCH FIRM
