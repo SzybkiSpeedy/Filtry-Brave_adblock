@@ -1,5 +1,5 @@
 ! Title: Moja Niestandardowa Lista Blokująca
-! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest i IPInfo)
+! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest, IPInfo i Lightshot Gallery)
 ! Version: 1.0
 ! Expires: 1 days
 
@@ -13,9 +13,10 @@
 @@||ip-score.com^$js,xmlhttprequest
 @@||check-host.net^$js,html,xmlhttprequest
 
-! Wyjątki dla Lightshot, aby zapobiec wyskakiwaniu komunikatów o braku API społecznościowych
-@@||connect.facebook.net^$domain=prnt.sc|lightshot.com
-@@||apis.google.com^$domain=prnt.sc|lightshot.com
+! Wyjątki dla sprawnego działania podstron galerii i logowania na Lightshot (prnt.sc / prntscr.com)
+@@||connect.facebook.net^$domain=prnt.sc|prntscr.com|lightshot.com
+@@||accounts.google.com^$domain=prnt.sc|prntscr.com|lightshot.com
+@@||gstatic.com^$js,domain=prnt.sc|prntscr.com
 
 ! ==========================================
 ! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
