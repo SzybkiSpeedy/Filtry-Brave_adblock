@@ -1,7 +1,7 @@
-! Title: Moja Niestandardowa Lista Blokująca
+! Title: Filtry - Brave-AdsBlocks
 ! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest, IPInfo i Lightshot Gallery)
-! Version: 1.0
-! Expires: 1 days
+! Version: 1.1
+! Expires: 0.5 days
 
 ! ==========================================
 ! [NOWA SEKCJA] WYJĄTKI DLA SPRAWNEGO DZIAŁANIA FUNKCJI SIECIOWYCH (WHITELIST)
