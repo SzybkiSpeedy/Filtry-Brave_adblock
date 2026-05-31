@@ -1,7 +1,7 @@
-! Title: Filtry - Brave-AdsBlocks
-! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest, IPInfo i Lightshot Gallery)
+! Title: Moja Niestandardowa Lista Blokująca
+! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest, IPInfo, Lightshot Gallery i Check-Host)
 ! Version: 1.1
-! Expires: 0.5 days
+! Expires: 1 days
 
 ! ==========================================
 ! [NOWA SEKCJA] WYJĄTKI DLA SPRAWNEGO DZIAŁANIA FUNKCJI SIECIOWYCH (WHITELIST)
@@ -19,6 +19,12 @@
 @@||gstatic.com^$domain=prnt.sc|prntscr.com|lightshot.com
 @@||google-analytics.com^$domain=prnt.sc|prntscr.com
 @@||analytics.google.com^$domain=prnt.sc|prntscr.com
+
+! ==========================================
+! [NOWA FUNKCJA] MASKOWANIE ADRESU IP (CHECK-HOST IP VISUAL MASK)
+! ==========================================
+! Automatyczna modyfikacja kodu strony check-host w celu zamiany wyświetlanego IP na format [ip].[ip].*.*
+check-host.net##^/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/$replace=/^([0-9]{1,3}\.[0-9]{1,3})\.[0-9]{1,3}\.[0-9]{1,3}$/$1.*.*/
 
 ! ==========================================
 ! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
