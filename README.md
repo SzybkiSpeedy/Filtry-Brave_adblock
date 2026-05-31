@@ -1,7 +1,7 @@
 # Filtry-Brave_adblock
 Filtry zabezpieczające 
 
-> [!INFORMACJA]
+> [!NOTE]
 > Kod filtru co jakiś czas będzię aktualizowany (dodawane, aktualizowane, modifikowane, usuwane) regułki itp.
 
 - [x] Blokuje ogólne skrypty.
