@@ -11,7 +11,7 @@
 @@||speedtest.pl^$js,xmlhttprequest,subdocument
 @@||ipinfo.io^$js,xmlhttprequest,subdocument
 @@||ip-score.com^$js,xmlhttprequest
-@@||check-host.net^$js,xmlhttprequest
+@@||check-host.net^$js,html
 
 ! ==========================================
 ! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
@@ -66,7 +66,7 @@ $third-party,script,domain=~github.com|~google.com|~speedtest.net|~speedtest.pl
 ! 4. GLOBALNE BLOKOWANIE SKRYPTÓW GEOLOKALIZACJI I SPRAWDZANIA IP
 ! ==========================================
 ! Blokowanie requestów do zewnętrznych baz danych o adresach IP (np. check-host)
-||check-host.net/ip-info/get-geocode$xmlhttprequest
+||check-host.net/ip-info/get-geocode$xmlhttprequest,important
 ||ip-api.com^$important
 ||ipify.org^$important
 ||ipinfo.io^$important,domain=~speedtest.net|~speedtest.pl|~ipinfo.io
@@ -134,8 +134,8 @@ speedtest.pl##.ad-wrapper
 speedtest.pl##div[class*="advertising"]
 
 ! Ukrywanie wiszącego napisu "Loading IP address geographic location..." na check-host
-check-host.net##div[style*="text-align: center; font-weight: bold;"]:has-text(Loading IP address)
-check-host.net##div:has-text(Loading IP address geographic location...)
+check-host.net##div[style*="text-align: center; font-weight: bold;"]
+check-host.net##div:has-text(Loading IP address)
 
 ! ==========================================
 ! 9. PRYWATNOŚĆ: TELEMETRIA I ŚLEDZENIE ZEWNĘTRZNYCH FIRM
