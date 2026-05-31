@@ -11,7 +11,7 @@
 @@||speedtest.pl^$js,xmlhttprequest,subdocument
 @@||ipinfo.io^$js,xmlhttprequest,subdocument
 @@||ip-score.com^$js,xmlhttprequest
-@@||check-host.net^$js,html
+@@||check-host.net^$js,html,xmlhttprequest
 
 ! ==========================================
 ! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
@@ -30,43 +30,23 @@
 ! ==========================================
 ! 2. BLOKOWANIE I KONTROLA POPRZEZ FILTROWANIE REQUESTÓW (SIEĆ)
 ! ==========================================
-! Blokowanie wszystkich ukrytych requestów wysyłanych przez skrypty w tle (XHR / Fetch / Beacon)
-$third-party,xmlhttprequest,domain=~speedtest.net|~speedtest.pl|~ipinfo.io|~check-host.net
+! Blokowanie szkodliwych requestów w tle bez przerywania działania skryptów funkcjonalnych stron
 $ping
-
-! Blokowanie requestów próbujących załadować obce strony wewnątrz ukrytych ramek (iFrames)
-$subdocument,third-party,domain=~speedtest.net|~speedtest.pl
-
-! Blokowanie wstrzykiwania złośliwych skryptów bezpośrednio w kodzie HTML strony (Inline Scripts)
-$third-party,inline-script,domain=~google.com|~github.com|~speedtest.net|~speedtest.pl
-
-! Blokowanie requestów żądających pobrania zewnętrznych zasobów webowych (WebSockets śledzące w tle)
 $websocket,third-party
-
-! Wykorzystanie nagłówków CSP do odcięcia requestów do nieznanych zewnętrznych skryptów i baz danych
-$third-party,csp=script-src 'self' 'unsafe-inline' https://*.google.com https://*.github.com https://*.speedtest.net
 
 ! ==========================================
 ! 3. OCHRONA PRZED ROZPOZNAWANIEM URZĄDZENIA I PRZEGLĄDARKI (ANTI-FINGERPRINTING)
 ! ==========================================
-! Blokowanie requestów i skryptów badających unikalność urządzenia (Canvas, Audio, WebGL)
-$domain=~brave.com,fingerprint
+! Blokowanie skryptów znanych z fingerprintingu
 ||fingerprintjs.com^$important
 ||cdn.jsdelivr.net/npm/@fingerprintjs/$script
 ||openfpcdn.io^$important
 ||valve.github.io/fingerprintjs2/$script
 
-! Blokowanie dostępu do informacji o sprzęcie (bateria, stan sieci, sensory, Bluetooth)
-$third-party,domain=~google.com|~speedtest.net|~speedtest.pl,csp=navigator.battery; navigator.connection; navigator.userAgent
-
-! Zapobieganie requestom czytającym czcionki systemowe i rozdzielczość ekranu
-$third-party,script,domain=~github.com|~google.com|~speedtest.net|~speedtest.pl
-
 ! ==========================================
 ! 4. GLOBALNE BLOKOWANIE SKRYPTÓW GEOLOKALIZACJI I SPRAWDZANIA IP
 ! ==========================================
-! Blokowanie requestów do zewnętrznych baz danych o adresach IP (np. check-host)
-||check-host.net/ip-info/get-geocode$xmlhttprequest,important
+! Blokowanie requestów do zewnętrznych baz danych o adresach IP (oprócz stron do tego przeznaczonych)
 ||ip-api.com^$important
 ||ipify.org^$important
 ||ipinfo.io^$important,domain=~speedtest.net|~speedtest.pl|~ipinfo.io
@@ -110,7 +90,7 @@ $explicit,third-party,link
 ! ==========================================
 ! 7. BLOKOWANIE REKLAM OTWIERAJĄCYCH NOWE KARTY (POP-UP / POP-UNDER)
 ! ==========================================
-! Zakaz otwierania nowych okien przez skrypty stron trzecich (np. przy próbie pobierania)
+! Zakaz otwierania nowych okien przez skrypty stron trzecich
 $popup,third-party
 $popunder,third-party
 ||onclickads.net^$important
@@ -118,30 +98,32 @@ $popunder,third-party
 ||popcash.net^$important
 ||propellerads.com^$important
 ||adsterra.com^$important
-$doc,third-party,frame
 
 ! ==========================================
-! 8. BLOKOWANIE REKLAM WSTRZYKIWANYCH NA STRONACH (FAŁSZYWE PRZYCISKI POBIERANIA)
+! 8. AUTOMATYCZNE BLOKOWANIE I UKRYWANIE REKLAM NA KAŻDEJ STRONIE (BEZ PSUJA)
 ! ==========================================
-! Blokowanie requestów o bannery reklamowe i automatyczne usuwanie pustych boksów reklamowych ze struktury strony
-$third-party,ad
+! Blokowanie zewnętrznych sieci reklamowych
 ||googlesyndication.com^$important
 ||doubleclick.net^$important
 ||adservice.google.com^$important
-##.ad, .ads, [class*="ad-box"], [id*="download-ad"]
+
+! Inteligentne, automatyczne usuwanie kontenerów reklamowych i pustych boksów na dowolnej witrynie
+##.ad, .ads, [class*="ad-box"], [id*="download-ad"], [class*="advertising" i], [id*="advertising" i], .ad-wrapper, .ad-wrapper-container
+##div[id^="google_ads_"]
+##iframe[id^="google_ads_"]
+
+! Dedykowane czyszczenie dla speedtest.pl
 speedtest.pl###ad-top
 speedtest.pl##.ad-wrapper
 speedtest.pl##div[class*="advertising"]
 
-! Precyzyjne usuwanie wiszącego tekstu ładowania geolokalizacji bez uszkadzania pozostałych bloków tekstu
+! Precyzyjne usuwanie wiszącego tekstu ładowania geolokalizacji na check-host bez uszkadzania kodu strony
 check-host.net##div[id="loading_geocode"]
 check-host.net##div:has-text(/^Loading IP address geographic location\.\.\.$/)
 
 ! ==========================================
 ! 9. PRYWATNOŚĆ: TELEMETRIA I ŚLEDZENIE ZEWNĘTRZNYCH FIRM
 ! ==========================================
-$third-party,tracking
-$third-party,analytics
 ||mc.yandex.ru^$important
 ||google-analytics.com^$important
 ||analytics.google.com^$important
