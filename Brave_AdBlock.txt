@@ -28,20 +28,21 @@
 ||wirtualnapolska.pl^$all
 
 ! ==========================================
-! 2. BLOKOWANIE I KONTROLA POPRZEZ FILTROWANIE REQUESTÓW (SIEĆ)
+! 2. BLOKOWANIE REKLAM I ŚLEDZENIA (BEZ PSUJA STRON)
 ! ==========================================
-! Blokowanie szkodliwych requestów w tle bez przerywania działania skryptów funkcjonalnych stron
+! Blokowanie zewnętrznych sieci reklamowych i trackerów
+||googlesyndication.com^$important
+||doubleclick.net^$important
+||adservice.google.com^$important
+||onclickads.net^$important
+||popads.net^$important
+||popcash.net^$important
+||propellerads.com^$important
+||adsterra.com^$important
+
+! Blokowanie ukrytego śledzenia (pingi i niechciane WebSockets)
 $ping
 $websocket,third-party
-
-! ==========================================
-! 3. OCHRONA PRZED ROZPOZNAWANIEM URZĄDZENIA I PRZEGLĄDARKI (ANTI-FINGERPRINTING)
-! ==========================================
-! Blokowanie skryptów znanych z fingerprintingu
-||fingerprintjs.com^$important
-||cdn.jsdelivr.net/npm/@fingerprintjs/$script
-||openfpcdn.io^$important
-||valve.github.io/fingerprintjs2/$script
 
 ! ==========================================
 ! 4. GLOBALNE BLOKOWANIE SKRYPTÓW GEOLOKALIZACJI I SPRAWDZANIA IP
@@ -60,7 +61,7 @@ $websocket,third-party
 ! ==========================================
 ! 5. GLOBALNE BLOKOWANIE COOKIES I BANERÓW RODO/ZGÓD
 ! ==========================================
-! Blokowanie requestów do systemów zarządzających zgodami (np. OneTrust, Cookiebot)
+! Blokowanie systemów zarządzających zgodami (OneTrust, Cookiebot itp.)
 ||onetrust.com^$important
 ||cookiebot.com^$important
 ||quantcast.mgr.consensu.org^$important
@@ -88,25 +89,15 @@ $removeparam=_openstat
 $explicit,third-party,link
 
 ! ==========================================
-! 7. BLOKOWANIE REKLAM OTWIERAJĄCYCH NOWE KARTY (POP-UP / POP-UNDER)
+! 7. POP-UPY I WYMUSZONE NOWE KARTY
 ! ==========================================
-! Zakaz otwierania nowych okien przez skrypty stron trzecich
+! Zakaz otwierania nowych okien reklamowych przez skrypty stron trzecich
 $popup,third-party
 $popunder,third-party
-||onclickads.net^$important
-||popads.net^$important
-||popcash.net^$important
-||propellerads.com^$important
-||adsterra.com^$important
 
 ! ==========================================
-! 8. AUTOMATYCZNE BLOKOWANIE I UKRYWANIE REKLAM NA KAŻDEJ STRONIE (BEZ PSUJA)
+! 8. AUTOMATYCZNE UKRYWANIE REKLAM NA KAŻDEJ STRONIE (KOSMETYKA)
 ! ==========================================
-! Blokowanie zewnętrznych sieci reklamowych
-||googlesyndication.com^$important
-||doubleclick.net^$important
-||adservice.google.com^$important
-
 ! Inteligentne, automatyczne usuwanie kontenerów reklamowych i pustych boksów na dowolnej witrynie
 ##.ad, .ads, [class*="ad-box"], [id*="download-ad"], [class*="advertising" i], [id*="advertising" i], .ad-wrapper, .ad-wrapper-container
 ##div[id^="google_ads_"]
