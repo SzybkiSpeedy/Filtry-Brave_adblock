@@ -1,6 +1,6 @@
 ! Title: Moja Niestandardowa Lista Blokująca
 ! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest i IPInfo)
-! Version: 6.1
+! Version: 1.0
 ! Expires: 1 days
 
 ! ==========================================
@@ -11,6 +11,7 @@
 @@||speedtest.pl^$js,xmlhttprequest,subdocument
 @@||ipinfo.io^$js,xmlhttprequest,subdocument
 @@||ip-score.com^$js,xmlhttprequest
+@@||check-host.net^$js,xmlhttprequest
 
 ! ==========================================
 ! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
@@ -30,7 +31,7 @@
 ! 2. BLOKOWANIE I KONTROLA POPRZEZ FILTROWANIE REQUESTÓW (SIEĆ)
 ! ==========================================
 ! Blokowanie wszystkich ukrytych requestów wysyłanych przez skrypty w tle (XHR / Fetch / Beacon)
-$third-party,xmlhttprequest,domain=~speedtest.net|~speedtest.pl|~ipinfo.io
+$third-party,xmlhttprequest,domain=~speedtest.net|~speedtest.pl|~ipinfo.io|~check-host.net
 $ping
 
 ! Blokowanie requestów próbujących załadować obce strony wewnątrz ukrytych ramek (iFrames)
@@ -131,6 +132,10 @@ $third-party,ad
 speedtest.pl###ad-top
 speedtest.pl##.ad-wrapper
 speedtest.pl##div[class*="advertising"]
+
+! Ukrywanie wiszącego napisu "Loading IP address geographic location..." na check-host
+check-host.net##div[style*="text-align: center; font-weight: bold;"]:has-text(Loading IP address)
+check-host.net##div:has-text(Loading IP address geographic location...)
 
 ! ==========================================
 ! 9. PRYWATNOŚĆ: TELEMETRIA I ŚLEDZENIE ZEWNĘTRZNYCH FIRM
