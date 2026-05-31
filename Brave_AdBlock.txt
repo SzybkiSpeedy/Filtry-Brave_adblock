@@ -28,7 +28,7 @@
 ||wirtualnapolska.pl^$all
 
 ! ==========================================
-! 2. BLOKOWANIE REKLAM I ŚLEDZENIA (BEZ PSUJA STRON)
+! 2. BLOKOWANIE REKLAM I ŚLEDZENIA (ZAPEWNIAJĄCE DZIAŁANIE SKRYPTÓW STRONY)
 ! ==========================================
 ! Blokowanie zewnętrznych sieci reklamowych i trackerów
 ||googlesyndication.com^$important
@@ -40,9 +40,8 @@
 ||propellerads.com^$important
 ||adsterra.com^$important
 
-! Blokowanie ukrytego śledzenia (pingi i niechciane WebSockets)
+! Blokowanie ukrytego śledzenia w tle bez zrywania połączeń ze skryptami witryny
 $ping
-$websocket,third-party
 
 ! ==========================================
 ! 4. GLOBALNE BLOKOWANIE SKRYPTÓW GEOLOKALIZACJI I SPRAWDZANIA IP
@@ -72,7 +71,7 @@ $websocket,third-party
 ##[id*="cookie" i], [class*="cookie" i], [class*="consent" i]
 
 ! ==========================================
-! 6. CZYSZCZENIE I BLOKOWANIE ŚLEDZĄCYCH HIPERŁĄCZY (URL CLEANING)
+! 6. CZYSZCZENIE PARAMETRÓW URL (BEZ BLOKOWANIA LINKÓW)
 ! ==========================================
 ! Usuwanie parametrów śledzących z linków (np. Facebook, Google, TikTok)
 $removeparam=fbclid
@@ -84,9 +83,6 @@ $removeparam=gclsrc
 $removeparam=ttclid
 $removeparam=twclid
 $removeparam=_openstat
-
-! Blokowanie hiperłączy przekierowujących przez serwery śledzące (Click-tracking)
-$explicit,third-party,link
 
 ! ==========================================
 ! 7. POP-UPY I WYMUSZONE NOWE KARTY
