@@ -13,6 +13,10 @@
 @@||ip-score.com^$js,xmlhttprequest
 @@||check-host.net^$js,html,xmlhttprequest
 
+! Wyjątki dla Lightshot, aby zapobiec wyskakiwaniu komunikatów o braku API społecznościowych
+@@||connect.facebook.net^$domain=prnt.sc|lightshot.com
+@@||apis.google.com^$domain=prnt.sc|lightshot.com
+
 ! ==========================================
 ! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
 ! ==========================================
