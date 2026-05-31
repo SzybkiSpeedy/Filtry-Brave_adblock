@@ -16,7 +16,7 @@ ________________________________________________________________________________
 
 [https://github.com/SzybkiSpeedy/Filtry-Brave_adblock/raw/refs/heads/main/Brave_AdBlock.txt](https://github.com/SzybkiSpeedy/Filtry-Brave_adblock/raw/refs/heads/main/Brave_AdBlock.txt)
 
-> **UWAGA:** Ta lista filtrów aktualizuje się automatycznie co 24 godziny. Nie musisz pobierać jej ponownie.
+> **UWAGA:** Ta lista filtrów aktualizuje się automatycznie co 12 godziny. Nie musisz pobierać jej ponownie.
 _____________________________________________________________________________________________________________
 
 
