@@ -8,7 +8,10 @@ Filtry zabezpieczające
 - [x] Blokuje ogólne elementy.
 - [x] Blokuje hiperłącza.
 - [x] Blokuje ogólne śledzenie, czasteczka itp.
-- [x] Blokuje ogólne reklamy i wyskakujące okinka czy bannery reklamowe ads. 
+- [x] Blokuje ogólne reklamy i wyskakujące okinka czy bannery reklamowe ads.
+_____________________________________________________________________________________________________________
+
+
 
 * Możesz również sobie kliknąć w poniży link lub skopiować --> wklejasz go do URL filtru w **Brave**
 
