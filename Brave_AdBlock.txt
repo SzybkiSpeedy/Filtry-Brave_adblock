@@ -1,29 +1,52 @@
 ! Title: Moja Niestandardowa Lista Blokująca
-! Description: Maksymalna ochrona sieciowa: Blokowanie requestów, IP, fingerprintingu, reklam i trackerów
-! Version: 5.0
+! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest i IPInfo)
+! Version: 6.1
 ! Expires: 1 days
 
 ! ==========================================
-! 1. BLOKOWANIE I KONTROLA POPRZEZ FILTROWANIE REQUESTÓW (SIĆ)
+! [NOWA SEKCJA] WYJĄTKI DLA SPRAWNEGO DZIAŁANIA FUNKCJI SIECIOWYCH (WHITELIST)
+! ==========================================
+! Zezwalaj na działanie skryptów i requestów XHR na stronach testujących prędkość i IP
+@@||speedtest.net^$js,xmlhttprequest,subdocument
+@@||speedtest.pl^$js,xmlhttprequest,subdocument
+@@||ipinfo.io^$js,xmlhttprequest,subdocument
+@@||ip-score.com^$js,xmlhttprequest
+
+! ==========================================
+! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
+! ==========================================
+! Modyfikator $document sprawia, że przeglądarka całkowicie odrzuca próbę wejścia na te domeny
+||o2.pl^$important,document
+||wp.pl^$domain=o2.pl
+||grupawp.pl^$important,document
+||wirtualnapolska.pl^$important,document
+
+! Globalne blokowanie ładowania zablokowanych domen jako głównej strony lub podstron
+||o2.pl^$all
+||grupawp.pl^$all
+||wirtualnapolska.pl^$all
+
+! ==========================================
+! 2. BLOKOWANIE I KONTROLA POPRZEZ FILTROWANIE REQUESTÓW (SIEĆ)
 ! ==========================================
 ! Blokowanie wszystkich ukrytych requestów wysyłanych przez skrypty w tle (XHR / Fetch / Beacon)
-$third-party,xmlhttprequest
+$third-party,xmlhttprequest,domain=~speedtest.net|~speedtest.pl|~ipinfo.io
 $ping
 
 ! Blokowanie requestów próbujących załadować obce strony wewnątrz ukrytych ramek (iFrames)
-$subdocument,third-party
+$subdocument,third-party,domain=~speedtest.net|~speedtest.pl
 
 ! Blokowanie wstrzykiwania złośliwych skryptów bezpośrednio w kodzie HTML strony (Inline Scripts)
-$third-party,inline-script,domain=~google.com|~github.com
+$third-party,inline-script,domain=~google.com|~github.com|~speedtest.net|~speedtest.pl
 
 ! Blokowanie requestów żądających pobrania zewnętrznych zasobów webowych (WebSockets śledzące w tle)
 $websocket,third-party
 
 ! Wykorzystanie nagłówków CSP do odcięcia requestów do nieznanych zewnętrznych skryptów i baz danych
-$third-party,csp=script-src 'self' 'unsafe-inline' https://*.google.com https://*.github.com
+$third-party,csp=script-src 'self' 'unsafe-inline' https://*.google.com https://*.github.com https://*.speedtest.net
 
 ! ==========================================
-! 2. OCHRONA PRZED ROZPOZNAWANIEM URZĄDZENIA I PRZEGLĄDARKI (ANTI-FINGERPRINTING)
+! 3. OCHRONA PRZED ROZPOZNAWANIEM URZĄDZENIA I PRZEGLĄDARKI (ANTI-FINGERPRINTING)
 ! ==========================================
 ! Blokowanie requestów i skryptów badających unikalność urządzenia (Canvas, Audio, WebGL)
 $domain=~brave.com,fingerprint
@@ -33,19 +56,19 @@ $domain=~brave.com,fingerprint
 ||valve.github.io/fingerprintjs2/$script
 
 ! Blokowanie dostępu do informacji o sprzęcie (bateria, stan sieci, sensory, Bluetooth)
-$third-party,domain=~google.com,csp=navigator.battery; navigator.connection; navigator.userAgent
+$third-party,domain=~google.com|~speedtest.net|~speedtest.pl,csp=navigator.battery; navigator.connection; navigator.userAgent
 
 ! Zapobieganie requestom czytającym czcionki systemowe i rozdzielczość ekranu
-$third-party,script,domain=~github.com|~google.com
+$third-party,script,domain=~github.com|~google.com|~speedtest.net|~speedtest.pl
 
 ! ==========================================
-! 3. GLOBALNE BLOKOWANIE SKRYPTÓW GEOLOKALIZACJI I SPRAWDZANIA IP
+! 4. GLOBALNE BLOKOWANIE SKRYPTÓW GEOLOKALIZACJI I SPRAWDZANIA IP
 ! ==========================================
 ! Blokowanie requestów do zewnętrznych baz danych o adresach IP (np. check-host)
 ||check-host.net/ip-info/get-geocode$xmlhttprequest
 ||ip-api.com^$important
 ||ipify.org^$important
-||ipinfo.io^$important
+||ipinfo.io^$important,domain=~speedtest.net|~speedtest.pl|~ipinfo.io
 ||icanhazip.com^$important
 ||wtfismyip.com^$important
 ||geojs.io^$important
@@ -54,7 +77,7 @@ $third-party,script,domain=~github.com|~google.com
 ||ip2location.com^$important
 
 ! ==========================================
-! 4. GLOBALNE BLOKOWANIE COOKIES I BANERÓW RODO/ZGÓD
+! 5. GLOBALNE BLOKOWANIE COOKIES I BANERÓW RODO/ZGÓD
 ! ==========================================
 ! Blokowanie requestów do systemów zarządzających zgodami (np. OneTrust, Cookiebot)
 ||onetrust.com^$important
@@ -67,7 +90,7 @@ $third-party,script,domain=~github.com|~google.com
 ##[id*="cookie" i], [class*="cookie" i], [class*="consent" i]
 
 ! ==========================================
-! 5. CZYSZCZENIE I BLOKOWANIE ŚLEDZĄCYCH HIPERŁĄCZY (URL CLEANING)
+! 6. CZYSZCZENIE I BLOKOWANIE ŚLEDZĄCYCH HIPERŁĄCZY (URL CLEANING)
 ! ==========================================
 ! Usuwanie parametrów śledzących z linków (np. Facebook, Google, TikTok)
 $removeparam=fbclid
@@ -84,7 +107,7 @@ $removeparam=_openstat
 $explicit,third-party,link
 
 ! ==========================================
-! 6. BLOKOWANIE REKLAM OTWIERAJĄCYCH NOWE KARTY (POP-UP / POP-UNDER)
+! 7. BLOKOWANIE REKLAM OTWIERAJĄCYCH NOWE KARTY (POP-UP / POP-UNDER)
 ! ==========================================
 ! Zakaz otwierania nowych okien przez skrypty stron trzecich (np. przy próbie pobierania)
 $popup,third-party
@@ -97,7 +120,7 @@ $popunder,third-party
 $doc,third-party,frame
 
 ! ==========================================
-! 7. BLOKOWANIE REKLAM WSTRZYKIWANYCH NA STRONACH (FAŁSZYWE PRZYCISKI POBIERANIA)
+! 8. BLOKOWANIE REKLAM WSTRZYKIWANYCH NA STRONACH (FAŁSZYWE PRZYCISKI POBIERANIA)
 ! ==========================================
 ! Blokowanie requestów o bannery reklamowe
 $third-party,ad
@@ -105,9 +128,12 @@ $third-party,ad
 ||doubleclick.net^$important
 ||adservice.google.com^$important
 ##.ad, .ads, [class*="ad-box"], [id*="download-ad"]
+speedtest.pl###ad-top
+speedtest.pl##.ad-wrapper
+speedtest.pl##div[class*="advertising"]
 
 ! ==========================================
-! 8. PRYWATNOŚĆ: TELEMETRIA I ŚLEDZENIE ZEWNĘTRZNYCH FIRM
+! 9. PRYWATNOŚĆ: TELEMETRIA I ŚLEDZENIE ZEWNĘTRZNYCH FIRM
 ! ==========================================
 $third-party,tracking
 $third-party,analytics
@@ -115,11 +141,3 @@ $third-party,analytics
 ||google-analytics.com^$important
 ||analytics.google.com^$important
 ||connect.facebook.net^$important
-
-! ==========================================
-! 9. CAŁKOWITE ZABLOKOWANIE O2.PL I JEGO SERWERÓW
-! ==========================================
-||o2.pl^$important
-||wp.pl^$domain=o2.pl
-||grupawp.pl^$important
-||wirtualnapolska.pl^$important
