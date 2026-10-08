@@ -1,10 +1,12 @@
-! Title: Brave - AdsBlock
-! Description: Maksymalna ochrona sieciowa: Całkowita blokada dostępu, requestów, IP i fingerprintingu (Zoptymalizowana pod Speedtest, IPInfo, Lightshot Gallery i Check-Host)
-! Version: 1.1
-! Expires: 12 hours
+! Title: SzybkiSpeedy Ultimate Privacy & Anti-Fingerprinting Shield
+! Description: Połączenie zaawansowanej ochrony anty-fingerprintingowej, fałszowania sprzętu i User-Agent z restrykcyjnymi blokadami sieciowymi, wyjątkami (whitelist) oraz maskowaniem IP.
+! Homepage: https://github.com/SzybkiSpeedy/Filtry-Brave_adblock
+! Version: 3.0.0
+! Last Modified: 2026-10-08
+! Expires: 1 days (daily updates)
 
 ! ==========================================
-! [NOWA SEKCJA] WYJĄTKI DLA SPRAWNEGO DZIAŁANIA FUNKCJI SIECIOWYCH (WHITELIST)
+! 1. WYJĄTKI DLA SPRAWNEGO DZIAŁANIA FUNKCJI SIECIOWYCH (WHITELIST)
 ! ==========================================
 ! Zezwalaj na działanie skryptów i requestów XHR na stronach testujących prędkość i IP
 @@||speedtest.net^$js,xmlhttprequest,subdocument
@@ -21,45 +23,63 @@
 @@||analytics.google.com^$domain=prnt.sc|prntscr.com
 
 ! ==========================================
-! [NOWA FUNKCJA] MASKOWANIE ADRESU IP (CHECK-HOST IP VISUAL MASK)
+! 2. MASKOWANIE ADRESU IP (CHECK-HOST IP VISUAL MASK)
 ! ==========================================
-! Automatyczna modyfikacja kodu strony check-host w celu zamiany wyświetlanego IP na format [ip].[ip].*.*
 check-host.net##^/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/$replace=/^([0-9]{1,3}\.[0-9]{1,3})\.[0-9]{1,3}\.[0-9]{1,3}$/$1.*.*/
 
 ! ==========================================
-! 1. CAŁKOWITE I NIEODWRACALNE ZABLOKOWANIE DOSTĘPU DO STRON (NA POZIOMIE DOKUMENTU)
+! 3. CAŁKOWITE BLOKOWANIE DOSTĘPU DO WYBRANYCH STRON
 ! ==========================================
-! Modyfikator $document sprawia, że przeglądarka całkowicie odrzuca próbę wejścia na te domeny
 ||o2.pl^$important,document
 ||wp.pl^$domain=o2.pl
 ||grupawp.pl^$important,document
 ||wirtualnapolska.pl^$important,document
-
-! Globalne blokowanie ładowania zablokowanych domen jako głównej strony lub podstron
 ||o2.pl^$all
 ||grupawp.pl^$all
 ||wirtualnapolska.pl^$all
 
 ! ==========================================
-! 2. BLOKOWANIE REKLAM I ŚLEDZENIA (ZAPEWNIAJĄCE DZIAŁANIE SKRYPTÓW STRONY)
+! 4. BLOKOWANIE API HARDWARE I SPECYFIKACJI SPRZĘTU
 ! ==========================================
-! Blokowanie zewnętrznych sieci reklamowych i trackerów
-||googlesyndication.com^$important
-||doubleclick.net^$important
-||adservice.google.com^$important
-||onclickads.net^$important
-||popads.net^$important
-||popcash.net^$important
-||propellerads.com^$important
-||adsterra.com^$important
+! Fałszowanie liczby rdzeni procesora, pamięci RAM oraz dotyku
++*##+js(set, navigator.hardwareConcurrency, 4)
++*##+js(set, navigator.deviceMemory, 8)
++*##+js(set, navigator.maxTouchPoints, 0)
++*##+js(set, navigator.connection, undefined)
++*##+js(set, navigator.pdfViewerEnabled, false)
 
-! Blokowanie ukrytego śledzenia w tle bez zrywania połączeń ze skryptami witryny
-$ping
+! Ukrywanie szczegółów karty graficznej (WebGL / WebGL2 Fingerprint Spoofing)
++*##+js(set, WebGLRenderingContext.prototype.getParameter, function() { return "Intel Open Source Technology Center"; })
++*##+js(set, WebGL2RenderingContext.prototype.getParameter, function() { return "Mesa DRI Intel(R) Ivybridge Mobile"; })
 
 ! ==========================================
-! 4. GLOBALNE BLOKOWANIE SKRYPTÓW GEOLOKALIZACJI I SPRAWDZANIA IP
+! 5. FAŁSZOWANIE I BLOKOWANIE USER-AGENT / PLATFORMY
 ! ==========================================
-! Blokowanie requestów do zewnętrznych baz danych o adresach IP (oprócz stron do tego przeznaczonych)
++*##+js(set, navigator.userAgent, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36")
++*##+js(set, navigator.appVersion, "5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36")
++*##+js(set, navigator.platform, "Win32")
++*##+js(set, navigator.vendor, "Google Inc.")
+
+! ==========================================
+! 6. BLOKOWANIE API BATERII
+! ==========================================
++*##+js(set, navigator.getBattery, undefined)
++*##+js(no-op, navigator.getBattery)
+
+! ==========================================
+! 7. BLOKOWANIE GEOLOKALIZACJI I CZUJNIKÓW
+! ==========================================
++*##+js(set, navigator.geolocation, undefined)
++*##+js(set, window.DeviceOrientationEvent, undefined)
++*##+js(set, window.DeviceMotionEvent, undefined)
++*##+js(set, window.AmbientLightSensor, undefined)
++*##+js(set, window.Magnetometer, undefined)
++*##+js(set, window.Gyroscope, undefined)
++*##+js(set, window.Accelerometer, undefined)
+
+! ==========================================
+! 8. GLOBALNE BLOKOWANIE SKRYPTÓW SPRAWDZANIA IP I GEOLOKALIZACJI
+! ==========================================
 ||ip-api.com^$important
 ||ipify.org^$important
 ||ipinfo.io^$important,domain=~speedtest.net|~speedtest.pl|~ipinfo.io
@@ -71,22 +91,47 @@ $ping
 ||ip2location.com^$important
 
 ! ==========================================
-! 5. GLOBALNE BLOKOWANIE COOKIES I BANERÓW RODO/ZGÓD
+! 9. OCHRONA PRZED CANVAS, AUDIO I FONT FINGERPRINTINGIEM
 ! ==========================================
-! Blokowanie systemów zarządzających zgodami (OneTrust, Cookiebot itp.)
++*##+js(to-dataurl-spoof)
++*##+js(audio-fingerprint-protection)
+
+! ==========================================
+! 10. BLOKOWANIE REKLAM, TRACKERÓW I TELEMETRII
+! ==========================================
+||googletagmanager.com/gtm.js$script
+||google-analytics.com/analytics.js$script
+||hotjar.com/*$script,third-party
+||clarity.ms/*$script,third-party
+||googlesyndication.com^$important
+||doubleclick.net^$important
+||adservice.google.com^$important
+||onclickads.net^$important
+||popads.net^$important
+||popcash.net^$important
+||propellerads.com^$important
+||adsterra.com^$important
+||sentry.io/*$all
+||segment.io/*$all
+||amplitude.com/*$all
+||mixpanel.com/*$all
+||quantserve.com/*$all
+||scorecardresearch.com/*$all
+$ping
+
+! ==========================================
+! 11. COOKIES I BANERY RODO
+! ==========================================
 ||onetrust.com^$important
 ||cookiebot.com^$important
 ||quantcast.mgr.consensu.org^$important
 ||usercentrics.eu^$important
-
-! Ukrywanie elementów graficznych: okienek i zasłon cookies na stronach
 ##.cookie-banner, .cookie-notice, #cookie-law, .consent-wall
 ##[id*="cookie" i], [class*="cookie" i], [class*="consent" i]
 
 ! ==========================================
-! 6. CZYSZCZENIE PARAMETRÓW URL (BEZ BLOKOWANIA LINKÓW)
+! 12. CZYSZCZENIE PARAMETRÓW URL (TRACKING PARAMS)
 ! ==========================================
-! Usuwanie parametrów śledzących z linków (np. Facebook, Google, TikTok)
 $removeparam=fbclid
 $removeparam=utm_source
 $removeparam=utm_medium
@@ -98,23 +143,17 @@ $removeparam=twclid
 $removeparam=_openstat
 
 ! ==========================================
-! 7. POP-UPY I WYMUSZONE NOWE KARTY
+! 13. POP-UPY I WYMUSZONE NOWE KARTY
 ! ==========================================
-! Zakaz otwierania nowych okien reklamowych przez skrypty stron trzecich
 $popup,third-party
 $popunder,third-party
 
 ! ==========================================
-! 8. AUTOMATYCZNE UKRYWANIE REKLAM NA KAŻDEJ STRONIE (KOSMETYKA)
+! 14. KOSMETYKA I UKRYWANIE REKLAM
 ! ==========================================
-! Inteligentne, automatyczne usuwanie kontenerów reklamowych i pustych boksów na dowolnej witrynie
 ##.ad, .ads, [class*="ad-box"], [id*="download-ad"], [class*="advertising" i], [id*="advertising" i], .ad-wrapper, .ad-wrapper-container
 ##div[id^="google_ads_"]
 ##iframe[id^="google_ads_"]
-
-! Dedykowane czyszczenie dla speedtest.pl
 speedtest.pl###ad-top
 speedtest.pl##.ad-wrapper
 speedtest.pl##div[class*="advertising"]
-
-! Precyzyjne usuwanie wiszącego tek
